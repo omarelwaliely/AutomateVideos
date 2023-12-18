@@ -1,4 +1,4 @@
-# Reddit-to-Video Scraper
+# Automatic Shorts
 
 ## Overview
 
