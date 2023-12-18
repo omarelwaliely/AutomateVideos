@@ -1,4 +1,4 @@
-# Automatic Shorts
+# Automatic Short Videos
 
 ## Overview
 
