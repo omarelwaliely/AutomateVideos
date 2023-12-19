@@ -22,7 +22,7 @@ class automate():
         )
         self.model = whisper.load_model("base") #loading the speech to text model (whisper)
     #creating parseing a subreddit here, name is name of subreddit, limit is the amount of posts and skip is the number of posts to skip, useful if the top posts are moderator pins
-    def parse_subreddit(self, name = "askreddit",limit = 3, skip = 1): #this parses a subreddits hot posts and makes an array of submissiob
+    def parse_subreddit(self, name = "programmer",limit = 3, skip = 1): #this parses a subreddits hot posts and makes an array of submissiob
         subreddit = self.reddit.subreddit(name)
         return list(subreddit.hot(limit=limit+skip))[skip:] #I convert to list first since the object type isnt iteratable then slice
     def choose_random_file(self,directory):
@@ -39,7 +39,7 @@ class automate():
         audio_title = audiosegment.from_file("temp_title.mp3") #title of post
         audio_internal = audiosegment.from_file("temp_text.mp3") #text of post
         combined_audio = audio_title+ audiosegment.silent(duration=1000) + audio_internal #merging the audio but putting a pause in the middle first
-        combined_audio = combined_audio.speedup(playback_speed=1.25) #speed of the AI was slow so changed it here
+        combined_audio = combined_audio.speedup(playback_speed=2.0) #speed of the AI was slow so changed it here
         try: #removing the temporary files but incase of error putting try and catch
             os.remove("temp_title.mp3")
             os.remove("temp_text.mp3")
@@ -62,24 +62,26 @@ class automate():
         self.add_captions("temp.mp4" ,data["segments"],outputpath) #finally I add the captions and save the video
     def add_captions(self, video_file, segments, output_file):
         video = VideoFileClip(video_file)  # Load the video
-        captions = []
+        # position = (video.size[0]//2, video.size[1]) #putting the caption somewhere near the bottom center
+        captions = [] #the  clips that contain the captions and their time stamps will be stored here
 
         for segment in segments:
             caption_clip = TextClip(
-                segment["text"],
-                fontsize=24,
-                color="white",
-                bg_color="transparent",
-                method="caption",
-                align="center",
-                size=(video.size[0], 30),
-            )
-            caption_clip = caption_clip.set_start(segment["start"]).set_end(segment["end"])
-            captions.append(caption_clip)
-
-        final_clip = CompositeVideoClip([video] + captions, size=video.size)
-        final_clip.write_videofile(output_file, codec="libx264", audio_codec="aac", fps=60)
+                segment["text"], #the segment contains time stamps and text so i take the text part here
+                fontsize=70, #this seems like a pretty good size but might be experimented with
+                color="purple", #put a color here I put purple so it shows for both dark and light videos
+                bg_color="transparent", #we already have a video at the back so we should make the caption video transparent
+                method="caption", #making it caption so it wraps if it exceeds the size
+                align="center", #putting at center
+                size=video.size, #setting size to be that of the original video
+                stroke_color="white",  # putting white outline
+                stroke_width=3,        # making the size of outline
+                font="Comic-Sans MS",  # using a more funner font
+            ).set_position(("center","bottom"),relative = True).set_start(segment["start"]).set_end(segment["end"]) #creating the clips of which contain a the caption a long with time stamp saved in segement as start and end and putting it at the bottom center
+            captions.append(caption_clip) #adding it to the captions array to be all merged at the end to save time
+        final_clip = CompositeVideoClip([video] + captions, size=video.size) #merge the captions and the video needs to be fixed should be center bottom but for some reason is at center. doesnt look bad though so kept for now
+        final_clip.write_videofile(output_file, codec="libx264", audio_codec="aac", fps=60) #write the file
 test= automate()
 subredditpost = test.parse_subreddit()
-test.create_video(subredditpost[2].title,subredditpost[2].selftext,os.getcwd() + "/upload/test.mp4")
+test.create_video(subredditpost[1].title,subredditpost[1].selftext,os.getcwd() + "/upload/test.mp4")
 # process_video("parkour.mp4",120)
