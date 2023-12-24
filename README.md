@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is an undergoing experiment which will be a automatic video uploader. 
+This is an undergoing experiment which will be an automatic video uploader. 
 
 ## Upcoming Features
 
