@@ -1,4 +1,6 @@
-*.json
 *.mp3
+*.jpg
+*.REMOVE_ME
 *.mp4
 *.pyc
+/config/
