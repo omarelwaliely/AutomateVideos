@@ -17,7 +17,6 @@ class Upload:
         bot.upload_video(video_path,caption = self.captions['default_caption']) #then we upload
         bot.logout() #and logout so we dont stay logged in later
 
-upload = Upload()
-upload.upload_to_instagram(os.getcwd() + "/upload/video_1.mp4")
+
         
 

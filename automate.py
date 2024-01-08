@@ -9,7 +9,7 @@ import whisper
 import random
 import string
 
-class automate():
+class Automate():
     #authentication to access reddit api. All info should be placed in information.json
     def __init__(self):
         info = open('information.json')
@@ -110,6 +110,3 @@ class automate():
             captions.append(caption_clip) #adding it to the captions array to be all merged at the end to save time
         final_clip = CompositeVideoClip([video] + captions, size=video.size) #merge the captions and the video needs to be fixed should be center bottom but for some reason is at center. doesnt look bad though so kept for now
         final_clip.write_videofile(output_file, codec="libx264", audio_codec="aac", fps=60) #write the file
-test= automate()
-test.create_videos_all("subredditnamehere",5,1,os.getcwd() + "/upload") #I parse a subreddit (I put a placeholder) taking the top 5 hottest posts but skipping the first then storing it in a folder in this directory with name /upload
-#process_video("parkour.mp4",300)
