@@ -4,15 +4,12 @@
 
 This is an ongoing experiment which will be an automatic video uploader. 
 
-## Upcoming Features
-
-- **Automatic Uploading**: Create videos automatically and uploads to multiple platforms at set times.
-
 ## Features
 
 - **Reddit Scraper**: Retrieve a set of posts from a specified subreddit.
 - **Text-to-Speech**: Utilize the TikTok-Voice-TTS library for converting text to voice.
 - **Video**: Create videos with an AI voice and automatic captioning.
+- **Automatic Uploading**: Create videos automatically and uploads to instagram at set times.
 
 ## Credits
 The utilized libarries are listed below
